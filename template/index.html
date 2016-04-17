@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Compare Image</title>
+	<link rel="stylesheet" href="/template/foundation/foundation.min.css">
+	<style>
+	html,
+	body,
+	.container {
+		height: 100%;
+	}
+	ul,ol {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+	body.is-loading {
+		overflow: hidden;
+	}
+	.layout__header {
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 10px;
+		background: #333;
+		height: 60px;
+		color: #FFF;
+	}
+	.layout__header h1 {
+		font-size: 28px;
+		font-weight: bold;
+		margin: 0;
+	}
+	.layout__header__title {
+		float: left;
+	}
+	.layout__body {
+		position: relative;
+		padding-top: 70px;
+		box-sizing: border-box;
+	}
+	.layout__nav {
+		float: right;
+	}
+	.layout__nav > * {
+		display: inline-block;
+	}
+	.layout__nav > * + * {
+		margin-left: 20px;
+	}
+	.layout__template {
+		display: none;
+	}
+	.comparecontrol > li {
+		display: inline-block;
+	}
+	.comparetable {
+		font-size: 12px;
+	}
+	.comparetable__no {
+		width: 4em;
+		text-align: center;
+	}
+	.comparetable__check {
+		width: 3em;
+	}
+	.comparetable__result {
+		width: 6em;
+		text-align: center;
+	}
+	.comparetable > tbody > tr {
+		transition: background 0.3s ease;
+	}
+	.comparetable > tbody > tr:hover {
+		background: #FFFFCC;
+	}
+	.comparetable > tbody > tr.is-not-match:hover {
+		background: #FFEDCC;
+	}
+	.compareview {
+		padding: 10px;
+		position: fixed;
+		top: 60px;
+		left: 100%;
+		right: 0;
+		bottom: 0;
+		color: #FFF;
+		background: rgba(0,0,0,0.7);
+		opacity: 0.3;
+		transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+	.compareview__menu {
+		float: left;
+		height: 100%;
+		margin-right: 5px;
+	}
+	.compareview__menu__buttons {
+		text-align: right;
+	}
+	.compareview__view {
+		width: auto;
+		height: calc(100% - 70px);
+		overflow: auto;
+	}
+	.compareview__content {
+		height: 100%;
+		overflow: hidden;
+	}
+	.compareview__info-table {
+		font-size: 12px;
+		font-weight: normal;
+	}
+	.compareview__info-table > tbody {
+		background: none;
+		border: none;
+	}
+	.compareview__info-table > tbody tr:nth-child(even) {
+		background-color: transparent;
+	}
+	.compareview__info-table > tbody > tr > th {
+		width: 5em;
+		padding: 3px;
+	}
+	.compareview__info-table > tbody > tr > td {
+		text-align: left;
+		padding: 3px;
+	}
+	.compareloader {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.7);
+		color: #FFF;
+		z-index: 10;
+	}
+	.compareloader__content {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		right: 0;
+		margin-top: -60px;
+		text-align: center;
+	}
+	.compareloader__line {
+		width: 100%;
+		height: 5px;
+		background: #333;
+		margin: 20px 0;
+	}
+	.comparelodaer__line__progress {
+		width: 0;
+		height: 100%;
+		background: #52B3E5;
+		transition: width 0.5s ease;
+	}
+	.compareresult {
+		margin: 0;
+	}
+	.compareresult > * {
+		display: inline-block;
+	}
+	.compareresult > dd + dt {
+		padding-left: 10px;
+		margin-left: 10px;
+		border-left: 1px solid #FFF;
+	}
+	.is-show-view .compareview {
+		display: block;
+		left: 200px;
+		opacity: 1.0;
+	}
+	.is-not-match {
+		background: #FEECEE !important;
+		color: #F24454 !important;
+	}
+	</style>
+</head>
+<body class="jsc-compareimage">
+	<div class="container">
+		<section class="layout">
+			<header class="layout__header">
+				<div class="layout__header__title">
+					<h1>Compare Images</h1>
+				</div>
+				<nav class="layout__nav">
+					<!--
+					<div>
+						<dl class="compareresult">
+							<dt>match</dt>
+							<dd>10</dd>
+							<dt>unmatch</dt>
+							<dd>1</dd>
+						</dl>
+					</div>
+					-->
+					<div>
+						<ul class="comparecontrol button-group">
+							<li>
+								<button class="button jsc-compareimage-control-start">Start</button>
+							</li>
+							<li>
+								<button class="button alert jsc-compareimage-control-reset">Reset</button>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<div class="layout__body">
+				<div class="layout__template">
+					<table>
+						<tbody class="jsc-compareimage-template">
+							<tr class="jsc-compareimage-viewtrigger">
+								<td class="comparetable__no">
+									<p class="jsc-compareimage-number"></p>
+								</td>
+								<td>
+									<div>
+										<input type="checkbox" class="jsc-compareimage-check">
+									</div>
+								</td>
+								<td class="comparetable__result">
+									<p class="jsc-compareimage-result"></p>
+								</td>
+								<td class="comparetable__diffmeter">
+									<div>
+										<meter class="jsc-compareimage-diffmeter"></meter>
+									</div>
+								</td>
+								<td class="comparetable__target jsc-compareimage-filecell">
+									<p class="jsc-compareimage-filename"></p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="layout__result">
+					<table class="comparetable">
+						<thead>
+							<tr>
+								<th class="comparetable__no">No</th>
+								<th class="comparetable__check">✓</th>
+								<th class="comparetable__result">比較結果</th>
+								<th class="comparetable__result">差分度合</th>
+								<th class="comparetable__target jsc-compareimage-filehead">比較対象</th>
+							</tr>
+						</thead>
+						<tbody class="jsc-compareimage-output">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div class="compareview">
+		<div class="compareview__menu">
+			<div>
+				<ul class="compareview__menu__buttons">
+					<li>
+						<button class="button secondary jsc-compareimage-view-close">×</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="compareview__content">
+			<div class="compareview__info-table-wrap">
+				<table class="compareview__info-table">
+					<tr>
+						<th>変更前</th>
+						<td><span class="jsc-compareimage-view-beforename"></span></td>
+					</tr>
+					<tr>
+						<th>変更後</th>
+						<td><span class="jsc-compareimage-view-aftername">image2.png</span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="compareview__view">
+				<div>
+					<canvas class="jsc-compareimage-view-canvas"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="compareloader jsc-compareimage-loader">
+		<div class="compareloader__content">
+			<p>Processing...</p>
+			<p>
+				<span class="jsc-compareimage-current"></span>
+				<span> / </span>
+				<span class="jsc-compareimage-total"></span>
+			</p>
+			<div class="compareloader__line">
+				<div class="comparelodaer__line__progress jsc-compareimage-loadbar"></div>
+			</div>
+			<button class="button secondary jsc-compareimage-control-stop">Stop</button>
+		</div>
+	</div>
+	<script src="/lib/jquery-1.12.2.min.js"></script>
+	<script src="/template/index.js"></script>
+</body>
+</html>
