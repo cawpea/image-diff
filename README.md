@@ -1,4 +1,4 @@
-# Compare Images
+# Image Diff
 
 ## Installing
 
