@@ -6,7 +6,7 @@ If you want to use this module, please clone this repository.
 
 ## Usage
 
-First, you should prepare to compare images* and these put `compare-images/input/before/`, `compare-images/input/after/`.
+First, you should prepare to compare images* and these put `image-diff/input/before/`, `image-diff/input/after/`.
 
 ***CAUTION: To compare images must be same name.***
 
