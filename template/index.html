@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
-	<title>Compare Image</title>
+	<title>ImageDiff</title>
 	<link rel="stylesheet" href="/template/foundation/foundation.min.css">
 	<style>
 	html,
@@ -42,21 +42,42 @@
 		padding-top: 70px;
 		box-sizing: border-box;
 	}
-	.layout__nav {
+	.layout__header__info {
 		float: right;
 	}
-	.layout__nav > * {
-		display: inline-block;
-	}
-	.layout__nav > * + * {
-		margin-left: 20px;
-	}
+    .layout__header__info > * + * {
+        margin-left: 20px;
+    }
+    .layout__header__result,
+    .layout__header__nav {
+        display: inline-block;
+    }
 	.layout__template {
 		display: none;
 	}
 	.comparecontrol > li {
 		display: inline-block;
 	}
+    .compareresult {
+        line-height: 1rem;
+    }
+    .compareresult > dt,
+    .compareresult > dd{
+        display: inline-block;
+    }
+    .compareresult__title ~ .compareresult__title {
+        border-left: 1px solid #FFF;
+        padding-left: 10px;
+        margin-left: 10px;
+    }
+    .compareresult__subtitle,
+    .compareresult__subtitle + dd {
+        font-size: 0.8rem;
+        color: #CCC;
+    }
+    .compareresult__subtitle {
+        margin-left: 10px;
+    }
 	.comparetable {
 		font-size: 12px;
 	}
@@ -159,17 +180,6 @@
 		background: #52B3E5;
 		transition: width 0.5s ease;
 	}
-	.compareresult {
-		margin: 0;
-	}
-	.compareresult > * {
-		display: inline-block;
-	}
-	.compareresult > dd + dt {
-		padding-left: 10px;
-		margin-left: 10px;
-		border-left: 1px solid #FFF;
-	}
 	.is-show-view .compareview {
 		display: block;
 		left: 200px;
@@ -186,30 +196,32 @@
 		<section class="layout">
 			<header class="layout__header">
 				<div class="layout__header__title">
-					<h1>Compare Images</h1>
+					<h1>ImageDiff</h1>
 				</div>
-				<nav class="layout__nav">
-					<!--
-					<div>
-						<dl class="compareresult">
-							<dt>match</dt>
-							<dd>10</dd>
-							<dt>unmatch</dt>
-							<dd>1</dd>
-						</dl>
-					</div>
-					-->
-					<div>
-						<ul class="comparecontrol button-group">
-							<li>
-								<button class="button jsc-compareimage-control-start">Start</button>
-							</li>
-							<li>
-								<button class="button alert jsc-compareimage-control-reset">Reset</button>
-							</li>
-						</ul>
-					</div>
-				</nav>
+                <div class="layout__header__info">
+                    <div class="layout__header__result">
+                        <dl class="compareresult">
+                            <dt class="compareresult__title">Match</dt>
+                            <dd class="jsc-compareimage-result-match">0</dd>
+                            <dt class="compareresult__subtitle">Checked</dt>
+                            <dd>0</dd>
+                            <dt class="compareresult__title">Unmatch</dt>
+                            <dd class="jsc-compareimage-result-unmatch">0</dd>
+                            <dt class="compareresult__subtitle">Checked</dt>
+                            <dd>0</dd>
+                        </dl>
+                    </div>
+                    <nav class="layout__header__nav">
+                        <ul class="comparecontrol button-group">
+                            <li>
+                                <button class="button jsc-compareimage-control-start">Start</button>
+                            </li>
+                            <li>
+                                <button class="button alert jsc-compareimage-control-reset">Reset</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 			</header>
 			<div class="layout__body">
 				<div class="layout__template">
