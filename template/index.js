@@ -226,13 +226,22 @@ COMPARE_IMAGE.Controller.prototype = {
 		this.compareTotalCount = matchPaths.length;
 		this.compareQueue = matchPaths;
 
-		this.listImagePaths(matchPaths, onlyBeforePaths, onlyAfterPaths);
+		this.showNotComparePaths(onlyBeforePaths, onlyAfterPaths);
 		this.startCompare();
 
 		this.log('before', onlyBeforePaths);
 		this.log('after', onlyAfterPaths);
 	},
-	listImagePaths: function(matchPaths, onlyBeforePaths, onlyAfterPaths) {},
+	showNotComparePaths: function(onlyBeforePaths, onlyAfterPaths) {
+		var index = 0;
+
+		for( var pathStr of onlyAfterPaths ) {
+			this.appendNotCompareRow( pathStr, index++ );
+		}
+		for( var pathStr of onlyAfterPaths ) {
+			this.appendNotCompareRow( pathStr, index++ );
+		}
+	},
 	startCompare: function() {
 		this.compareStatus = this.COMPARE_STATUS.RUNNING;
 		this.compareMatchCount = 0;
@@ -262,7 +271,7 @@ COMPARE_IMAGE.Controller.prototype = {
 		}.bind(this));
 	},
 	afterCompare: function(compare) {
-		this.appendRow(compare);
+		this.appendCompareRow(compare);
 
 		if (compare.compareData.isEqualImage) {
 			++this.compareMatchCount;
@@ -328,11 +337,31 @@ COMPARE_IMAGE.Controller.prototype = {
 		++this.compareIndex;
 		return compare;
 	},
-	appendRow: function(compare) {
+	appendCompareRow: function(compare) {
+		var parameter = {};
+		var resultText;
+		var diffPercent;
+
+		if( compare.compareData ) {
+			var isEqualImage = compare.compareData.isEqualImage;
+			var mergeData = compare.compareData.mergeData;
+			var indexes = mergeData.indexes;
+			resultText = isEqualImage ? '○' : '×';
+
+			if (indexes && indexes.length > 0) {
+				diffPercent = indexes.length / mergeData.data.length * 100;
+			}
+		}
+		parameter.index = this.compareIndex;
+		parameter.resultText = resultText;
+		parameter.diffPercent = diffPercent;
+		parameter.imageList = compare.imageList;
+
 		var $template = this.editTemplate(
 			this.$template.children().clone(true),
-			compare
+			parameter
 		);
+
 		$template.data('compare-path', compare.imagePathList);
 
 		var $fileHead = $('.jsc-compareimage-filehead');
@@ -340,49 +369,53 @@ COMPARE_IMAGE.Controller.prototype = {
 
 		this.$output.append($template);
 	},
-	editTemplate: function($template, compare) {
-		var isEqualImage;
+	appendNotCompareRow: function( pathStr, index ) {
+		console.log( `pathStr=${pathStr}, index=${index}` );
+	},
+	editTemplate: function($template, parameter) {
+		var index = parameter.index || '-';
+		var resultText = parameter.resultText || '-';
+		var diffPercent = parameter.diffPercent || 0;
+		var imageList = parameter.imageList || [];
 
 		var $number = $template.find('.jsc-compareimage-number');
+		var $result = $template.find('.jsc-compareimage-result');
+		var $meter = $template.find('.jsc-compareimage-diffmeter');
+
 		if ($number.length > 0) {
-			$number.text(this.compareIndex);
+			$number.text( index );
 		}
 
-		if (compare.compareData) {
-			var isEqualImage = compare.compareData.isEqualImage;
-			var mergeData = compare.compareData.mergeData;
-			var indexes = mergeData.indexes;
-			var resultText = isEqualImage ? '○' : '×';
-			var $result = $template.find('.jsc-compareimage-result');
-			$result.text(resultText);
+		if( resultText ) {
+			$result.text( resultText );
+		}
 
-			if (indexes && indexes.length > 0) {
-				$template.addClass(this.CLASSNAME.NOT_MATCH);
-				var $meter = $template.find('.jsc-compareimage-diffmeter');
-				var diffPercent = indexes.length / mergeData.data.length * 100;
+		if( diffPercent > 0 ) {
+			$template.addClass(this.CLASSNAME.NOT_MATCH);
 
-				if (diffPercent < 1) {
-					diffPercent = 1;
-				}
-
-				$meter.attr('max', 100);
-				$meter.attr('value', diffPercent);
-			} else {
-				$template.removeClass(this.CLASSNAME.NOT_MATCH);
+			if (diffPercent < 1) {
+				diffPercent = 1;
 			}
+
+			$meter.attr('max', 100);
+			$meter.attr('value', diffPercent );
+		}else {
+			$template.removeClass(this.CLASSNAME.NOT_MATCH);
 		}
-		if (compare.imageList.length > 0) {
-			var $cellList = this.createImageCell($template, compare);
+
+		if( imageList.length > 0 ) {
+			var $cellList = this.createImageCell($template, imageList);
 			$template.append($cellList);
 		}
+
 		return $template;
 	},
-	createImageCell: function($template, compare) {
+	createImageCell: function($template, imageList) {
 		var _this = this;
 		var $cellList;
 		var $templateCell = $template.find('.jsc-compareimage-filecell').detach();
 
-		$.each(compare.imageList, function() {
+		$.each(imageList, function() {
 			var src = this.src;
 			var $cell = $templateCell.clone(true);
 			var $fileName = $cell.find('.jsc-compareimage-filename');
