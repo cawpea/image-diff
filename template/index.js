@@ -190,7 +190,7 @@ COMPARE_IMAGE.Controller.prototype = {
 	},
 	compareImageList: function(beforeList, afterList) {
 		if (beforeList.length === 0 || afterList.length === 0) {
-			this.error( '"' + this.PATH.BEFORE + '" is empty.' );
+			this.error('"' + this.PATH.BEFORE + '" is empty.');
 			this.stopCompare();
 			return;
 		}
@@ -232,9 +232,7 @@ COMPARE_IMAGE.Controller.prototype = {
 		this.log('before', onlyBeforePaths);
 		this.log('after', onlyAfterPaths);
 	},
-	listImagePaths: function(matchPaths, onlyBeforePaths, onlyAfterPaths) {
-
-	},
+	listImagePaths: function(matchPaths, onlyBeforePaths, onlyAfterPaths) {},
 	startCompare: function() {
 		this.compareStatus = this.COMPARE_STATUS.RUNNING;
 		this.compareMatchCount = 0;
@@ -448,7 +446,7 @@ COMPARE_IMAGE.Controller.prototype = {
 		if (data instanceof Array) {} else {}
 	},
 	error: function(message) {
-		alert( 'ERROR: ' + message );
+		alert('ERROR: ' + message);
 	}
 };
 
