@@ -26,7 +26,8 @@ MY_SERVER.Server.prototype = {
 		'.png': 'image/png',
 		'.jpg': 'image/jpeg',
 		'.gif': 'image/gif',
-		'.txt': 'text/plain'
+		'.txt': 'text/plain',
+		'.svg': 'image/svg+xml'
 	},
 	init: function() {
 		this.setParameters();

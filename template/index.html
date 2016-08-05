@@ -36,6 +36,13 @@
 	}
 	.layout__header__title {
 		float: left;
+		overflow: hidden;
+		text-indent: 100%;
+		white-space: nowrap;
+		background-image: url(/template/assets/image/logo.svg);
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-size: auto 25px;
 	}
 	.layout__body {
 		position: relative;
@@ -45,39 +52,39 @@
 	.layout__header__info {
 		float: right;
 	}
-    .layout__header__info > * + * {
-        margin-left: 20px;
-    }
-    .layout__header__result,
-    .layout__header__nav {
-        display: inline-block;
-    }
+	.layout__header__info > * + * {
+		margin-left: 20px;
+	}
+	.layout__header__result,
+	.layout__header__nav {
+		display: inline-block;
+	}
 	.layout__template {
 		display: none;
 	}
 	.comparecontrol > li {
 		display: inline-block;
 	}
-    .compareresult {
-        line-height: 1rem;
-    }
-    .compareresult > dt,
-    .compareresult > dd{
-        display: inline-block;
-    }
-    .compareresult__title ~ .compareresult__title {
-        border-left: 1px solid #FFF;
-        padding-left: 10px;
-        margin-left: 10px;
-    }
-    .compareresult__subtitle,
-    .compareresult__subtitle + dd {
-        font-size: 0.8rem;
-        color: #CCC;
-    }
-    .compareresult__subtitle {
-        margin-left: 10px;
-    }
+	.compareresult {
+		line-height: 1rem;
+	}
+	.compareresult > dt,
+	.compareresult > dd{
+		display: inline-block;
+	}
+	.compareresult__title ~ .compareresult__title {
+		border-left: 1px solid #FFF;
+		padding-left: 10px;
+		margin-left: 10px;
+	}
+	.compareresult__subtitle,
+	.compareresult__subtitle + dd {
+		font-size: 0.8rem;
+		color: #CCC;
+	}
+	.compareresult__subtitle {
+		margin-left: 10px;
+	}
 	.comparetable {
 		font-size: 12px;
 	}
@@ -200,30 +207,30 @@
 				<div class="layout__header__title">
 					<h1>ImageDiff</h1>
 				</div>
-                <div class="layout__header__info">
-                    <div class="layout__header__result">
-                        <dl class="compareresult">
-                            <dt class="compareresult__title">Match</dt>
-                            <dd class="jsc-compareimage-result-match">0</dd>
-                            <dt class="compareresult__subtitle">Checked</dt>
-                            <dd>0</dd>
-                            <dt class="compareresult__title">Unmatch</dt>
-                            <dd class="jsc-compareimage-result-unmatch">0</dd>
-                            <dt class="compareresult__subtitle">Checked</dt>
-                            <dd>0</dd>
-                        </dl>
-                    </div>
-                    <nav class="layout__header__nav">
-                        <ul class="comparecontrol button-group">
-                            <li>
-                                <button class="button jsc-compareimage-control-start">Start</button>
-                            </li>
-                            <li>
-                                <button class="button alert jsc-compareimage-control-reset">Reset</button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+				<div class="layout__header__info">
+					<div class="layout__header__result">
+						<dl class="compareresult">
+							<dt class="compareresult__title">Match</dt>
+							<dd class="jsc-compareimage-result-match">0</dd>
+							<dt class="compareresult__subtitle">Checked</dt>
+							<dd>0</dd>
+							<dt class="compareresult__title">Unmatch</dt>
+							<dd class="jsc-compareimage-result-unmatch">0</dd>
+							<dt class="compareresult__subtitle">Checked</dt>
+							<dd>0</dd>
+						</dl>
+					</div>
+					<nav class="layout__header__nav">
+						<ul class="comparecontrol button-group">
+							<li>
+								<button class="button jsc-compareimage-control-start">Start</button>
+							</li>
+							<li>
+								<button class="button alert jsc-compareimage-control-reset">Reset</button>
+							</li>
+						</ul>
+					</nav>
+				</div>
 			</header>
 			<div class="layout__body">
 				<div class="layout__template">
