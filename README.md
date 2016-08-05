@@ -2,7 +2,9 @@
 
 ## Overview
 
-This tool compares the two images, to extract the difference
+This tool compares the two images, to extract the difference.
+
+![ImageDiff Example](https://raw.githubusercontent.com/masaki-ohsumi/image-diff/master/template/assets/movie/imagediff_sample.gif)
 
 ## Installing
 
