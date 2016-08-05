@@ -14,9 +14,9 @@ git clone https://github.com/masaki-ohsumi/image-diff.git
 
 ## Usage
 
-First, please prepare to compare images* and these put to `image-diff/input/before/` and `image-diff/input/after/`.
+First, please prepare to compare images and these put to `image-diff/input/before/` and `image-diff/input/after/`.
 
-*** *CAUTION: Images must be same name to compare.***
+***CAUTION: Images must be same name to compare.***
 
 Input below on the command line.
 
