@@ -8,6 +8,7 @@ COMPARE_IMAGE.Controller.prototype = {
 		IS_LOADING: 'is-loading',
 		SHOW_VIEW: 'is-show-view',
 		NOT_MATCH: 'is-not-match',
+		NOT_COMPARE: 'is-not-compare',
 		DISABLED: 'disabled'
 	},
 	PATH: {
@@ -233,14 +234,13 @@ COMPARE_IMAGE.Controller.prototype = {
 		this.log('after', onlyAfterPaths);
 	},
 	showNotComparePaths: function(onlyBeforePaths, onlyAfterPaths) {
-		var index = 0;
-
-		for( var pathStr of onlyAfterPaths ) {
-			this.appendNotCompareRow( pathStr, index++ );
+		for( var pathStr of onlyBeforePaths ) {
+			this.appendNotCompareRow( pathStr );
 		}
 		for( var pathStr of onlyAfterPaths ) {
-			this.appendNotCompareRow( pathStr, index++ );
+			this.appendNotCompareRow( pathStr );
 		}
+		this.notCompareImageCount = onlyBeforePaths.length + onlyAfterPaths.length;
 	},
 	startCompare: function() {
 		this.compareStatus = this.COMPARE_STATUS.RUNNING;
@@ -323,7 +323,7 @@ COMPARE_IMAGE.Controller.prototype = {
 	compareFunction: function(beforePath, afterPath) {
 		console.log('compare index is ' + this.compareIndex + '.');
 
-		var currentCount = this.compareIndex + 1;
+		var currentCount = this.compareIndex + 1 - this.notCompareImageCount;
 		var progress = currentCount / this.compareTotalCount * 100;
 		this.$current.text(currentCount);
 		this.$total.text(this.compareTotalCount);
@@ -352,14 +352,15 @@ COMPARE_IMAGE.Controller.prototype = {
 				diffPercent = indexes.length / mergeData.data.length * 100;
 			}
 		}
-		parameter.index = this.compareIndex;
-		parameter.resultText = resultText;
-		parameter.diffPercent = diffPercent;
-		parameter.imageList = compare.imageList;
 
 		var $template = this.editTemplate(
 			this.$template.children().clone(true),
-			parameter
+			{
+				no: this.compareIndex,
+				resultText: resultText,
+				diffPercent: diffPercent,
+				imageList: compare.imageList
+			}
 		);
 
 		$template.data('compare-path', compare.imagePathList);
@@ -369,11 +370,25 @@ COMPARE_IMAGE.Controller.prototype = {
 
 		this.$output.append($template);
 	},
-	appendNotCompareRow: function( pathStr, index ) {
-		console.log( `pathStr=${pathStr}, index=${index}` );
+	appendNotCompareRow: function( pathStr ) {
+		var $template = this.editTemplate(
+			this.$template.children().clone(true),
+			{
+				no: ++this.compareIndex,
+				resultText: 'Not Compare',
+				imageList: [{
+					src: pathStr
+				},{
+					src: ''
+				}]
+			}
+		);
+
+		$template.addClass( this.CLASSNAME.NOT_COMPARE );
+		this.$output.append($template);
 	},
 	editTemplate: function($template, parameter) {
-		var index = parameter.index || '-';
+		var no = parameter.no || '-';
 		var resultText = parameter.resultText || '-';
 		var diffPercent = parameter.diffPercent || 0;
 		var imageList = parameter.imageList || [];
@@ -383,7 +398,7 @@ COMPARE_IMAGE.Controller.prototype = {
 		var $meter = $template.find('.jsc-compareimage-diffmeter');
 
 		if ($number.length > 0) {
-			$number.text( index );
+			$number.text( no );
 		}
 
 		if( resultText ) {
