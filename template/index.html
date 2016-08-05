@@ -132,7 +132,7 @@
 	}
 	.compareview__view {
 		width: auto;
-		height: calc(100% - 70px);
+		height: calc(100% - 40px);
 		overflow: auto;
 	}
 	.compareview__content {
@@ -142,6 +142,7 @@
 	.compareview__info-table {
 		font-size: 12px;
 		font-weight: normal;
+		table-layout: fixed;
 	}
 	.compareview__info-table > tbody {
 		background: none;
@@ -154,9 +155,20 @@
 		width: 5em;
 		padding: 3px;
 	}
+	.compareview__info-table > tbody > tr > th:after {
+		content: ':';
+	}
 	.compareview__info-table > tbody > tr > td {
 		text-align: left;
 		padding: 3px;
+	}
+	.compareview__info-table__path {
+		display: inline-block;
+		width: 100%;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		vertical-align: middle;
 	}
 	.compareloader {
 		display: none;
@@ -212,12 +224,12 @@
 						<dl class="compareresult">
 							<dt class="compareresult__title">Match</dt>
 							<dd class="jsc-compareimage-result-match">0</dd>
-							<dt class="compareresult__subtitle">Checked</dt>
-							<dd>0</dd>
+							<!--<dt class="compareresult__subtitle">Checked</dt>
+							<dd>0</dd>-->
 							<dt class="compareresult__title">Unmatch</dt>
 							<dd class="jsc-compareimage-result-unmatch">0</dd>
-							<dt class="compareresult__subtitle">Checked</dt>
-							<dd>0</dd>
+							<!--<dt class="compareresult__subtitle">Checked</dt>
+							<dd>0</dd>-->
 						</dl>
 					</div>
 					<nav class="layout__header__nav">
@@ -266,9 +278,9 @@
 							<tr>
 								<th class="comparetable__no">No</th>
 								<th class="comparetable__check">✓</th>
-								<th class="comparetable__result">比較結果</th>
-								<th class="comparetable__result">差分度合</th>
-								<th class="comparetable__target jsc-compareimage-filehead">比較対象</th>
+								<th class="comparetable__result">Result</th>
+								<th class="comparetable__result">Diff Level</th>
+								<th class="comparetable__target jsc-compareimage-filehead">URLs</th>
 							</tr>
 						</thead>
 						<tbody class="jsc-compareimage-output">
@@ -292,12 +304,18 @@
 			<div class="compareview__info-table-wrap">
 				<table class="compareview__info-table">
 					<tr>
-						<th>変更前</th>
-						<td><span class="jsc-compareimage-view-beforename"></span></td>
-					</tr>
-					<tr>
-						<th>変更後</th>
-						<td><span class="jsc-compareimage-view-aftername">image2.png</span></td>
+						<th>Before</th>
+						<td>
+							<div>
+								<span class="compareview__info-table__path jsc-compareimage-view-beforename"></span>
+							</div>
+						</td>
+						<th>After</th>
+						<td>
+							<div>
+								<span class="compareview__info-table__path jsc-compareimage-view-aftername"></span>
+							</div>
+						</td>
 					</tr>
 				</table>
 			</div>
