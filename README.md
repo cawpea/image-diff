@@ -2,11 +2,11 @@
 
 ## Overview
 
-Image Diff is to compare two images and extract the difference.
+This tool compares the two images, to extract the difference
 
 ## Installing
 
-If you want to use this module, please clone this repository.
+If you want to use this tool, please clone this repository.
 
 ```bash
 git clone https://github.com/masaki-ohsumi/image-diff.git
@@ -14,9 +14,9 @@ git clone https://github.com/masaki-ohsumi/image-diff.git
 
 ## Usage
 
-First, you should prepare to compare images* and these put `image-diff/input/before/`, `image-diff/input/after/`.
+First, please prepare to compare images* and these put to `image-diff/input/before/` and `image-diff/input/after/`.
 
-***\*CAUTION: To compare images must be same name.***
+*** *CAUTION: Images must be same name to compare.***
 
 Input below on the command line.
 
@@ -24,4 +24,4 @@ Input below on the command line.
 node server.js
 ```
 
-Finally, you should open [localhost:9000](http://localhost:9000/) and press the Start button.
+Finally, open [localhost:9000](http://localhost:9000/) and press the Start button.
