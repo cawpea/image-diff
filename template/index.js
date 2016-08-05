@@ -82,8 +82,10 @@ COMPARE_IMAGE.Controller.prototype = {
 		this.$current.text('0');
 	},
 	resetResult: function() {
-		this.$resultMatch.text('0');
-		this.$resultUnMatch.text('0');
+		this.compareMatchCount = 0;
+		this.compareUnMatchCount = 0;
+		this.$resultMatch.text( this.compareMatchCount );
+		this.$resultUnMatch.text( this.compareUnMatchCount );
 	},
 	checkNotification: function() {
 		if (!('Notification' in window)) {
@@ -244,8 +246,6 @@ COMPARE_IMAGE.Controller.prototype = {
 	},
 	startCompare: function() {
 		this.compareStatus = this.COMPARE_STATUS.RUNNING;
-		this.compareMatchCount = 0;
-		this.compareUnMatchCount = 0;
 
 		this.$body.addClass(this.CLASSNAME.IS_LOADING);
 		this.updateControlButton();
@@ -269,6 +269,7 @@ COMPARE_IMAGE.Controller.prototype = {
 				this.completeCompare();
 			}
 		}.bind(this));
+		this.updateSummary();
 	},
 	afterCompare: function(compare) {
 		this.appendCompareRow(compare);
@@ -281,9 +282,7 @@ COMPARE_IMAGE.Controller.prototype = {
 	},
 	completeCompare: function() {
 		this.resetLoader();
-
-		this.$resultMatch.text(this.compareMatchCount);
-		this.$resultUnMatch.text(this.compareUnMatchCount);
+		this.updateSummary();
 
 		var notification = new window.Notification('Compate Image has been completed.');
 		setTimeout(function() {
@@ -489,6 +488,10 @@ COMPARE_IMAGE.Controller.prototype = {
 			$target.addClass(this.CLASSNAME.DISABLED);
 			$target.attr('disabled', 'disabled');
 		}
+	},
+	updateSummary: function() {
+		this.$resultMatch.text(this.compareMatchCount);
+		this.$resultUnMatch.text(this.compareUnMatchCount);
 	},
 	log: function(message, data) {
 		if (data instanceof Array) {} else {}
