@@ -36,6 +36,7 @@
 	}
 	.layout__header__title {
 		float: left;
+		width: 200px;
 		overflow: hidden;
 		text-indent: 100%;
 		white-space: nowrap;
@@ -130,19 +131,77 @@
 	.compareview__menu__buttons {
 		text-align: right;
 	}
+	.compareview__submenu {
+		margin-bottom: 10px;
+	}
+	.compareview__submenu > div + div {
+		margin-top: 10px;
+	}
 	.compareview__view {
 		width: auto;
-		height: calc(100% - 40px);
+		height: calc(100% - 62px);
 		overflow: auto;
+	}
+	.compareview__view__tab {
+		position: relative;
+	}
+	.compareview__view__tab::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: block;
+		background: #333;
+		padding: 5px 10px;
+		font-size: .8em;
+	}
+	.compareview__view__tab--compare::before {
+		content: 'Compare'
+	}
+	.compareview__view__tab--before::before {
+		content: 'Before';
+	}
+	.compareview__view__tab--after::before {
+		content: 'After';
+	}
+	.compareview__view__tab canvas {
+		width: 100%;
+	}
+	.compareview__view__tab img {
+		width: 100%;
+	}
+	.compareview__view__tab + .compareview__view__tab {
+		margin-top: 10px;
 	}
 	.compareview__content {
 		height: 100%;
 		overflow: hidden;
 	}
+	.compareview__imagetab::after {
+		content: '';
+		clear: both;
+		display: block;
+	}
+	.compareview__imagetab {
+		line-height: 1em;
+	}
+	.compareview__imagetab > li {
+		float: left;
+	}
+	.compareview__imagetab > li + li {
+		border-left: 1px solid;
+		margin-left: 10px;
+		padding-left: 10px;
+	}
+	.compareview__imagetab > li > a {
+		display: block;
+	}
 	.compareview__info-table {
 		font-size: 12px;
 		font-weight: normal;
 		table-layout: fixed;
+		border-bottom: 1px solid;
+		margin: 0;
 	}
 	.compareview__info-table > tbody {
 		background: none;
@@ -299,29 +358,57 @@
 					</li>
 				</ul>
 			</div>
+			<div>
+				<ul>
+					<li>
+						<button></button>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<div class="compareview__content">
-			<div class="compareview__info-table-wrap">
-				<table class="compareview__info-table">
-					<tr>
-						<th>Before</th>
-						<td>
-							<div>
-								<span class="compareview__info-table__path jsc-compareimage-view-beforename"></span>
-							</div>
-						</td>
-						<th>After</th>
-						<td>
-							<div>
-								<span class="compareview__info-table__path jsc-compareimage-view-aftername"></span>
-							</div>
-						</td>
-					</tr>
-				</table>
+			<div class="compareview__submenu">
+				<div class="compareview__info-table-wrap">
+					<table class="compareview__info-table">
+						<tr>
+							<th>Before</th>
+							<td>
+								<div>
+									<span class="compareview__info-table__path jsc-compareimage-view-beforename"></span>
+								</div>
+							</td>
+							<th>After</th>
+							<td>
+								<div>
+									<span class="compareview__info-table__path jsc-compareimage-view-aftername"></span>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<ul class="compareview__imagetab">
+						<li>
+							<a href="#viewCompare">Compare</a>
+						</li>
+						<li>
+							<a href="#viewBefore">Before</a>
+						</li>
+						<li>
+							<a href="#viewAfter">After</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div class="compareview__view">
-				<div>
+				<div id="viewCompare" class="compareview__view__tab compareview__view__tab--compare">
 					<canvas class="jsc-compareimage-view-canvas"></canvas>
+				</div>
+				<div id="viewBefore" class="compareview__view__tab compareview__view__tab--before">
+					<img class="jsc-compareimage-view-before" src="">
+				</div>
+				<div id="viewAfter" class="compareview__view__tab compareview__view__tab--after">
+					<img class="jsc-compareimage-view-after" src="">
 				</div>
 			</div>
 		</div>

@@ -45,6 +45,8 @@ COMPARE_IMAGE.Controller.prototype = {
 		this.$loadBar = $('.jsc-compareimage-loadbar');
 		this.$resultMatch = $('.jsc-compareimage-result-match');
 		this.$resultUnMatch = $('.jsc-compareimage-result-unmatch');
+		this.$viewBefore = $('.jsc-compareimage-view-before');
+		this.$viewAfter = $('.jsc-compareimage-view-after');
 	},
 	bindEvents: function() {
 		var _this = this;
@@ -154,6 +156,7 @@ COMPARE_IMAGE.Controller.prototype = {
 					return;
 				}
 				_this.setImageToCanvas(compareData.mergeData);
+				_this.setImagePathOfBeforeAfter(comparePath);
 				_this.$base.addClass(_this.CLASSNAME.SHOW_VIEW);
 				_this.$viewBeforeName.text(comparePath[0]);
 				_this.$viewAfterName.text(comparePath[1]);
@@ -177,6 +180,10 @@ COMPARE_IMAGE.Controller.prototype = {
 		context.putImageData(imageData, 0, 0);
 
 		this.currentImageData = imageData;
+	},
+	setImagePathOfBeforeAfter: function(comparePath) {
+		this.$viewBefore.attr('src', comparePath[0]);
+		this.$viewAfter.attr('src', comparePath[1]);
 	},
 	clearCanvas: function() {
 		if (!this.currentImageData) {
