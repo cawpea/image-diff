@@ -6,6 +6,7 @@ COMPARE_IMAGE.Controller = function() {
 COMPARE_IMAGE.Controller.prototype = {
 	CLASSNAME: {
 		IS_LOADING: 'is-loading',
+		IS_SELECTED: 'is-selected',
 		SHOW_VIEW: 'is-show-view',
 		NOT_MATCH: 'is-not-match',
 		NOT_COMPARE: 'is-not-compare',
@@ -114,6 +115,8 @@ COMPARE_IMAGE.Controller.prototype = {
 		if (!$(event.target).is('input[type="checkbox"]')) {
 			this.changeCheck($target);
 		}
+		$('.jsc-compareimage-viewtrigger').removeClass( this.CLASSNAME.IS_SELECTED );
+		$target.addClass( this.CLASSNAME.IS_SELECTED );
 	},
 	onChangeViewTrigger: function($target) {
 		var isNotMatch = $target.hasClass(this.CLASSNAME.NOT_MATCH);
