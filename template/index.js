@@ -34,6 +34,7 @@ COMPARE_IMAGE.Controller.prototype = {
 		this.$controlStart = $('.jsc-compareimage-control-start');
 		this.$controlStop = $('.jsc-compareimage-control-stop');
 		this.$controlReset = $('.jsc-compareimage-control-reset');
+		this.$view = $('.jsc-compareimage-view');
 		this.$viewBeforeName = $('.jsc-compareimage-view-beforename');
 		this.$viewAfterName = $('.jsc-compareimage-view-aftername');
 		this.$viewCanvas = $('.jsc-compareimage-view-canvas');
@@ -158,8 +159,7 @@ COMPARE_IMAGE.Controller.prototype = {
 				_this.setImageToCanvas(compareData.mergeData);
 				_this.setImagePathOfBeforeAfter(comparePath);
 				_this.$base.addClass(_this.CLASSNAME.SHOW_VIEW);
-				_this.$viewBeforeName.text(comparePath[0]);
-				_this.$viewAfterName.text(comparePath[1]);
+				_this.$view.scrollTop(0);
 			},
 			function() {
 				_this.error('Can not show the merge image.');
@@ -184,6 +184,8 @@ COMPARE_IMAGE.Controller.prototype = {
 	setImagePathOfBeforeAfter: function(comparePath) {
 		this.$viewBefore.attr('src', comparePath[0]);
 		this.$viewAfter.attr('src', comparePath[1]);
+		this.$viewBeforeName.text(comparePath[0]);
+		this.$viewAfterName.text(comparePath[1]);
 	},
 	clearCanvas: function() {
 		if (!this.currentImageData) {
